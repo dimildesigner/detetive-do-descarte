@@ -3,23 +3,34 @@ import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { gsap } from 'gsap';
 
+// 🎨 Importando as artes originais que você enviou!
+import mainImg from '../assets/bg-detectives.png'; 
+import imgGolden from '../assets/agente_golden.png'; 
+import imgPoodle from '../assets/agente_poodle.png'; 
+
 export default function MainMenu({ onStart }) {
   const { setGameState } = useGame();
   const [nameInput, setNameInput] = useState('');
-  const [selectedAvatar, setSelectedAvatar] = useState('🦮'); // '🦮' para Golden, '🐩' para Poodle
+  const [selectedAvatar, setSelectedAvatar] = useState('🦮'); // Mantém o valor interno para não quebrar o resto do app
 
   useEffect(() => {
+    // 🔍 Injeta dinamicamente a fonte estilo gibi vitoriano (idêntica à das plaquinhas)
+    const link = document.createElement('link');
+    link.href = 'https://fonts.googleapis.com/css2?family=Rye&display=swap';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    // Animação dramática de entrada
     gsap.timeline()
-      .to("#menu-title", { opacity: 1, y: 0, duration: 0.8, ease: "back.out(1.7)" })
-      .to("#menu-subtitle", { opacity: 1, duration: 0.5 })
-      .to("#menu-form", { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, "-=0.2");
+      .to("#menu-art", { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" })
+      .to("#menu-title", { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.5)" }, "-=0.3")
+      .to("#menu-form", { opacity: 1, y: 0, duration: 0.5 }, "-=0.2");
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!nameInput.trim()) return alert("Por favor, digite sua identificação de Agente!");
 
-    // Grava o nome e o avatar escolhido no estado global
     setGameState(prev => ({ 
       ...prev, 
       playerName: nameInput.toUpperCase(),
@@ -28,7 +39,7 @@ export default function MainMenu({ onStart }) {
     
     gsap.to("#menu-container", {
       opacity: 0,
-      scale: 0.95,
+      scale: 0.98,
       duration: 0.4,
       onComplete: onStart
     });
@@ -37,69 +48,83 @@ export default function MainMenu({ onStart }) {
   return (
     <div 
       id="menu-container" 
-      className="fixed inset-0 bg-neutral-950 z-50 flex flex-col items-center justify-center px-4 overflow-y-auto"
-      style={{ backgroundImage: 'radial-gradient(#1a1a1a 2px, transparent 2px)', backgroundSize: '30px 30px' }}
+      className="fixed inset-0 bg-neutral-950 z-50 flex flex-col md:flex-row items-center justify-center p-4 md:p-8 overflow-y-auto gap-8"
+      style={{ backgroundImage: 'radial-gradient(#111 2px, transparent 0px)', backgroundSize: '25px 25px' }}
     >
-      <div className="max-w-xl w-full text-center my-8">
-        {/* ÍCONE DINÂMICO DE DETETIVE DOG */}
-        <div className="text-7xl mb-4 select-none animate-pulse flex justify-center gap-2">
-          <span>🕵️‍♂️</span><span>{selectedAvatar}</span>
-        </div>
+      {/* COLUNA 1: CAPA COM SEUS DETETIVES */}
+      <div id="menu-art" className="w-full md:w-1/2 max-w-lg opacity-0 -translate-x-6 transition-all">
+        <img 
+          src={mainImg} 
+          alt="Detetives do Descarte" 
+          className="w-full h-auto border-6 border-black rounded-sm shadow-[8px_8px_0_#000] object-cover"
+        />
+      </div>
 
+      {/* COLUNA 2: FORMULÁRIO DE ENTRADA */}
+      <div className="w-full md:w-1/2 max-w-md flex flex-col justify-center">
         <h1 
           id="menu-title" 
-          className="text-5xl md:text-6xl font-black tracking-tighter text-yellow-400 opacity-0 -translate-y-6 select-none drop-shadow-[4px_4px_0_#000]"
+          className="text-4xl md:text-5xl font-black tracking-tighter text-yellow-400 opacity-0 -translate-y-4 select-none drop-shadow-[3px_3px_0_#000] text-center md:text-left"
           style={{ fontFamily: 'Impact' }}
         >
           DETETIVE DO DESCARTE
         </h1>
-        
-        <p id="menu-subtitle" className="font-mono text-xs uppercase tracking-widest text-neutral-500 mt-2 opacity-0">
+        <p className="font-mono text-[11px] uppercase tracking-widest text-neutral-500 mt-1 text-center md:text-left mb-5">
           Operação Eco-Compliance Corporativo
         </p>
 
         <form 
           id="menu-form" 
           onSubmit={handleSubmit}
-          className="mt-8 bg-neutral-900 border-4 border-black p-6 md:p-8 rounded-md shadow-[12px_12px_0_#000] opacity-0 translate-y-6 text-left"
+          className="bg-neutral-900 border-4 border-black p-6 rounded-md shadow-[8px_8px_0_#000] opacity-0 translate-y-4 text-left"
         >
-          {/* SELEÇÃO DE AVATAR */}
+          {/* SELEÇÃO V VISUAL DOS AVATARES AUTORAIS */}
           <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 font-bold mb-3">
-            Escolha seu Parceiro Investigador:
+            Selecione seu Parceiro de Investigação:
           </label>
           
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            {/* CARD GOLDEN */}
+          <div className="grid grid-cols-2 gap-4 mb-5">
+            {/* CARD DO GOLDEN */}
             <div 
               onClick={() => setSelectedAvatar('🦮')}
-              className={`border-4 p-4 rounded-md text-center cursor-pointer transition-all select-none flex flex-col items-center gap-2
-                ${selectedAvatar === '🦮' 
-                  ? 'bg-amber-500/20 border-yellow-400 shadow-[4px_4px_0_#ca8a04]' 
-                  : 'bg-black/40 border-black hover:border-neutral-700'
-                }`}
+              className={`border-4 rounded-md overflow-hidden bg-black/50 p-2 cursor-pointer transition-all flex flex-col items-center gap-2 text-center
+                ${selectedAvatar === '🦮' ? 'border-yellow-400 shadow-[6px_6px_0_#ca8a04] bg-yellow-500/10' : 'border-black hover:border-neutral-800'}`}
             >
-              <span className="text-4xl">🦮</span>
-              <div className="font-mono font-black text-xs text-neutral-200">DET. GOLDEN</div>
-              <span className="text-[10px] text-neutral-400 font-mono">Consagrado & Focado</span>
+              <img 
+                src={imgGolden} 
+                alt="Agente Golden" 
+                className="w-full h-full object-cover border-0 border-black rounded-sm"
+              />
+              <div 
+                className="text-neutral-200 text-sm tracking-wide mt-1" 
+                style={{ fontFamily: "'Rye', serif" }} // 👈 APLICANDO A FONTE ESTILO GIBI RETRÔ!
+              >
+                GOLDEN
+              </div>
             </div>
 
-            {/* CARD POODLE */}
+            {/* CARD DA POODLE */}
             <div 
               onClick={() => setSelectedAvatar('🐩')}
-              className={`border-4 p-4 rounded-md text-center cursor-pointer transition-all select-none flex flex-col items-center gap-2
-                ${selectedAvatar === '🐩' 
-                  ? 'bg-purple-500/20 border-purple-500 shadow-[4px_4px_0_#7c3aed]' 
-                  : 'bg-black/40 border-black hover:border-neutral-700'
-                }`}
+              className={`border-4 rounded-md overflow-hidden bg-black/50 p-2 cursor-pointer transition-all flex flex-col items-center gap-2 text-center
+                ${selectedAvatar === '🐩' ? 'border-purple-500 shadow-[6px_6px_0_#7c3aed] bg-purple-500/10' : 'border-black hover:border-neutral-800'}`}
             >
-              <span className="text-4xl">🐩</span>
-              <div className="font-mono font-black text-xs text-neutral-200">DET. POODLE</div>
-              <span className="text-[10px] text-neutral-400 font-mono">Perspicaz & Estratégica</span>
+              <img 
+                src={imgPoodle} 
+                alt="Agente Poodle" 
+                className="w-full h-full object-cover border-0 border-black rounded-sm"
+              />
+              <div 
+                className="text-neutral-200 text-sm tracking-wide mt-1" 
+                style={{ fontFamily: "'Rye', serif" }} // 👈 APLICANDO A FONTE ESTILO GIBI RETRÔ!
+              >
+                POODLE
+              </div>
             </div>
           </div>
 
           <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 font-bold mb-2">
-            Identificação do Investigador (Nome ou ID):
+            Nome do Investigador:
           </label>
           <input 
             type="text" 
@@ -107,12 +132,12 @@ export default function MainMenu({ onStart }) {
             value={nameInput}
             onChange={(e) => setNameInput(e.target.value)}
             placeholder="Ex: AGENTE EDDIE" 
-            className="w-full bg-black border-4 border-black p-3 font-mono text-sm text-yellow-400 focus:outline-none focus:border-yellow-400 placeholder-neutral-700 rounded-sm font-bold uppercase transition-colors"
+            className="w-full bg-black border-4 border-black p-3 font-mono text-xs text-yellow-400 focus:outline-none focus:border-yellow-400 placeholder-neutral-800 rounded-sm font-bold uppercase transition-colors"
           />
 
           <button
             type="submit"
-            className="w-full mt-6 bg-yellow-400 hover:bg-yellow-500 text-black font-black uppercase tracking-wider border-4 border-black py-4 rounded-md shadow-[4px_4px_0_#000] hover:translate-y-1 hover:shadow-[2px_2px_0_#000] transition-all cursor-pointer text-center text-sm"
+            className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-black uppercase tracking-wider border-4 border-black py-3 rounded-md shadow-[4px_4px_0_#000] hover:translate-y-0.5 hover:shadow-[2px_2px_0_#000] transition-all cursor-pointer text-center text-xs"
           >
             🕵️‍♂️ Iniciar Investigação
           </button>

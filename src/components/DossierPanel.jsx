@@ -20,7 +20,7 @@ export default function DossierPanel() {
           <span className="z-10">🕵️‍♂️</span>
 
           {/* Emoji do Dog Parceiro - Ajustado para não sobrepor */}
-          <span className="absolute bottom-[-6px] right-[-8px] text-base bg-yellow-400 border-2 border-black rounded-full w-6 h-6 flex items-center justify-center z-20 shadow-[1px_1px_0_#000]">
+          <span className="absolute bottom-[-6px] right-[-8px] text-base bg-yellow-400 border-2 border-black rounded-full w-8 h-8 flex items-center justify-center z-20 shadow-[1px_1px_0_#000]">
             {gameState.playerAvatar}
           </span>
         </div>

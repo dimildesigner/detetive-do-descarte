@@ -3,6 +3,13 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 
+import petImg from "../../../assets/pet_reciclada.png"; // A garrafa
+import lixoAmareloImg from "../../../assets/lixo_recicla_metal_amarelo.png"; // A garrafa
+import lixoAzulImg from "../../../assets/lixo_recicla_papel_azul.png"; // A garrafa
+import lixoVermelhoImg from "../../../assets/lixo_recicla_plastico_vermelho.png"; // A garrafa
+
+
+
 // Registra o plugin no GSAP para evitar problemas de escopo no React
 gsap.registerPlugin(Draggable);
 
@@ -65,27 +72,28 @@ export const DragDropGame = ({ onSuccess }) => {
       {/* A GARRAFA ARRASTÁVEL */}
       <div 
         ref={bottleRef} 
-        className="text-6xl cursor-grab active:cursor-grabbing z-30 touch-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
+        className="text-6xl cursor-grab active:cursor-grabbing z-30 touch-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
       >
-        🍾
+        <img src={petImg} alt="Garrafa PET de plástico" className="w-7.5 h-18" />
       </div>
 
       {/* AS LIXEIRAS DE CORES DIFERENTES (ESTILO HQ) */}
       <div className="flex justify-around w-full gap-4 mt-auto">
-        <div className="w-24 h-28 bg-blue-600 border-4 border-black rounded-md flex flex-col items-center justify-center font-black text-black text-xs shadow-[4px_4px_0_#000]">
-          📄 <span className="bg-white px-1 border border-black rounded-sm mt-2 text-[9px]">PAPEL</span>
+        <div className="relative bottom-0">
+          {/* <span className="bg-white px-1 border border-black rounded-sm mt-2 text-[9px]">PAPEL</span> */}
+          <img src={lixoAzulImg} alt="Lixo Reciclável de Papel" className="w-full h-32" />          
         </div>
         
         {/* ALVO CORRETO */}
-        <div 
-          ref={targetBinRef} 
-          className="w-28 h-32 bg-red-500 border-4 border-black rounded-md flex flex-col items-center justify-center font-black text-black text-sm shadow-[4px_4px_0_#000] scale-105 transition-transform"
+        <div ref={targetBinRef} className="relative bottom-1"
         >
-          ♻️ <span className="bg-white px-2 py-0.5 border border-black rounded-sm mt-2 text-[10px]">PLÁSTICO</span>
+          <img src={lixoVermelhoImg} alt="Lixo Reciclável de Plástico" className="w-full h-36" />
+          {/* <span className="bg-white px-2 py-0.5 border border-black rounded-sm mt-2 text-[10px]">PLÁSTICO</span> */}
         </div>
 
-        <div className="w-24 h-28 bg-emerald-600 border-4 border-black rounded-md flex flex-col items-center justify-center font-black text-black text-xs shadow-[4px_4px_0_#000]">
-          🥛 <span className="bg-white px-1 border border-black rounded-sm mt-2 text-[9px]">VIDRO</span>
+        <div className="relative bottom-0">
+          <img src={lixoAmareloImg} alt="Lixo Reciclável de Metal" className="w-full h-32" /> 
+          {/* 🥛 <span className="bg-white px-1 border border-black rounded-sm mt-2 text-[9px]">Vidro</span> */}
         </div>
       </div>
     </div>

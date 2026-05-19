@@ -2,15 +2,21 @@
 import React, { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 
+// 🎨 Importando os cards ilustrados que você enviou!
+import imgPapelLimpo from "../../../assets/caso02-cards_papel_reciclado.png";
+import imgCopoSujo from "../../../assets/caso02-cards_copo_cafe_nao_reciclado.png";
+import imgPapelao from "../../../assets/caso02-cards_papelao_reciclado.png";
+import imgLencoUmido from "../../../assets/caso02-cards_lenco_humidecido_nao_reciclado.png";
+
 const INITIAL_CARDS = [
-  { id: 1, name: 'Papel Limpo', icon: '📄', type: 'reciclável' },
-  { id: 1, name: 'Papel Limpo', icon: '📄', type: 'reciclável' },
-  { id: 2, name: 'Copo de Café Sujo', icon: '☕', type: 'rejeito' },
-  { id: 2, name: 'Copo de Café Sujo', icon: '☕', type: 'rejeito' },
-  { id: 3, name: 'Caixa de Papelão', icon: '📦', type: 'reciclável' },
-  { id: 3, name: 'Caixa de Papelão', icon: '📦', type: 'reciclável' },
-  { id: 4, name: 'Papel Toalha Úmido', icon: '🧻', type: 'rejeito' },
-  { id: 4, name: 'Papel Toalha Úmido', icon: '🧻', type: 'rejeito' }
+  { id: 1, name: 'Papel Limpo', img: imgPapelLimpo, type: 'reciclável' },
+  { id: 1, name: 'Papel Limpo', img: imgPapelLimpo, type: 'reciclável' },
+  { id: 2, name: 'Copo de Café Sujo', img: imgCopoSujo, type: 'rejeito' },
+  { id: 2, name: 'Copo de Café Sujo', img: imgCopoSujo, type: 'rejeito' },
+  { id: 3, name: 'Caixa de Papelão', img: imgPapelao, type: 'reciclável' },
+  { id: 3, name: 'Caixa de Papelão', img: imgPapelao, type: 'reciclável' },
+  { id: 4, name: 'Papel Toalha Úmido', img: imgLencoUmido, type: 'rejeito' },
+  { id: 4, name: 'Papel Toalha Úmido', img: imgLencoUmido, type: 'rejeito' }
 ];
 
 export const MemoryGrid = ({ onSuccess }) => {
@@ -19,7 +25,6 @@ export const MemoryGrid = ({ onSuccess }) => {
   const [matches, setMatches] = useState([]);
   const [lockBoard, setLockBoard] = useState(false);
 
-  // Inicializa e embaralha as cartas ao montar o componente
   useEffect(() => {
     const shuffled = [...INITIAL_CARDS].sort(() => Math.random() - 0.5);
     setCards(shuffled.map((card, i) => ({ ...card, uniqueId: i })));
@@ -28,7 +33,6 @@ export const MemoryGrid = ({ onSuccess }) => {
   const handleCardClick = (card, index) => {
     if (lockBoard || matches.includes(card.id) || selected.some(s => s.uniqueId === index)) return;
 
-    // Animação GSAP girando a carta selecionada no eixo Y (Efeito 3D)
     gsap.to(`#card-${index}`, { rotateY: 180, duration: 0.4, ease: 'power2.out' });
 
     const newSelected = [...selected, { ...card, uniqueId: index }];
@@ -44,9 +48,7 @@ export const MemoryGrid = ({ onSuccess }) => {
     const [first, second] = currentSelected;
 
     if (first.id === second.id) {
-      // Deu Match!
       setTimeout(() => {
-        // Efeito visual de pulo nas cartas corretas
         gsap.to([`#card-${first.uniqueId}`, `#card-${second.uniqueId}`], {
           scale: 1.05, yoyo: true, repeat: 1, duration: 0.2
         });
@@ -55,20 +57,17 @@ export const MemoryGrid = ({ onSuccess }) => {
         setSelected([]);
         setLockBoard(false);
 
-        // Feedback pedagógico rápido via console/alerta sutil
         if (first.type === 'reciclável') {
           alert(`Excelente! ${first.name} vai para a Lixeira Azul.`);
         } else {
           alert(`Muito bom! ${first.name} está contaminado e vai para o Rejeito comum.`);
         }
 
-        // Verifica se limpou todo o tabuleiro (4 pares)
         if (matches.length + 1 === INITIAL_CARDS.length / 2) {
           onSuccess();
         }
       }, 600);
     } else {
-      // Errou o par: treme as cartas e desvira
       setTimeout(() => {
         gsap.timeline()
           .to([`#card-${first.uniqueId}`, `#card-${second.uniqueId}`], { x: -6, yoyo: true, repeat: 3, duration: 0.05 })
@@ -87,30 +86,36 @@ export const MemoryGrid = ({ onSuccess }) => {
   };
 
   return (
-    <div className="w-full max-w-xl bg-neutral-900 border-4 border-black p-6 rounded-lg flex flex-col items-center shadow-[8px_8px_0_#000]" style={{ perspective: '1000px' }}>
-      <div className="grid grid-cols-4 gap-4 w-full">
+    <div className="w-full max-w-2xl bg-neutral-950 border-4 border-black p-6 rounded-md flex flex-col items-center shadow-[8px_8px_0_#000]" style={{ perspective: '1000px' }}>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
         {cards.map((card, index) => {
-          const isFlipped = selected.some(s => s.uniqueId === index) || matches.includes(card.id);
+          const isMatched = matches.includes(card.id);
           return (
             <div
               key={index}
               id={`card-${index}`}
               onClick={() => handleCardClick(card, index)}
-              className="h-36 relative cursor-pointer select-none transition-opacity duration-300"
-              style={{ transformStyle: 'preserve-3d', opacity: matches.includes(card.id) ? 0.4 : 1 }}
+              className="h-44 relative cursor-pointer select-none"
+              style={{ transformStyle: 'preserve-3d', opacity: isMatched ? 0.4 : 1, transition: 'opacity 0.3s' }}
             >
-              {/* VERSO DA CARTA (Olhando de frente) */}
-              <div className="absolute w-full h-full bg-neutral-800 border-4 border-black rounded-md flex items-center justify-center font-bold text-2xl text-yellow-400 shadow-[2px_2px_0_#000]" style={{ backfaceVisibility: 'hidden' }}>
+              {/* VERSO DA CARTA (Fundo Preto com Símbolo de Reciclagem) */}
+              <div className="absolute w-full h-full bg-neutral-900 border-4 border-black rounded-sm flex items-center justify-center text-3xl text-yellow-400 shadow-[3px_3px_0_#000]" style={{ backfaceVisibility: 'hidden' }}>
                 ♻️
               </div>
               
-              {/* FRENTE DA CARTA (Revelada no giro 3D) */}
-              <div className="absolute w-full h-full bg-white text-black border-4 border-black rounded-md flex flex-col items-center justify-center p-2 text-center shadow-[2px_2px_0_#000]" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
-                <span className="text-3xl mb-1">{card.icon}</span>
-                <span className="text-[10px] font-black uppercase tracking-tight leading-none mb-1">{card.name}</span>
-                <span className={`text-[8px] font-bold ${card.type === 'reciclável' ? 'text-blue-600' : 'text-red-500'}`}>
-                  {card.type === 'reciclável' ? 'Reciclável' : 'Rejeito'}
-                </span>
+              {/* FRENTE DA CARTA (Exibe sua arte customizada) */}
+              <div className="absolute w-full h-full bg-neutral-800 text-white border-4 border-black rounded-sm flex flex-col overflow-hidden shadow-[3px_3px_0_#000]" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                <img 
+                  src={card.img} 
+                  alt={card.name} 
+                  className="w-full h-28 object-cover border-b-2 border-black" 
+                />
+                <div className="p-1.5 flex flex-col justify-between flex-1 bg-neutral-900">
+                  <span className="text-[10px] font-black uppercase tracking-tight leading-none text-neutral-200 truncate">{card.name}</span>
+                  <span className={`text-[8px] font-bold uppercase tracking-wider ${card.type === 'reciclável' ? 'text-blue-400' : 'text-red-400'}`}>
+                    {card.type === 'reciclável' ? 'Reciclável' : 'Rejeito'}
+                  </span>
+                </div>
               </div>
             </div>
           );
