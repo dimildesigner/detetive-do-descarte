@@ -3,6 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 
+// 🎨 Importando o background customizado com as fitas de cena de crime
+import bgPilhas from "../../../assets/caso03_pilhas_bg.png";
+
 gsap.registerPlugin(Draggable);
 
 export const WireGame = ({ onSuccess }) => {
@@ -18,29 +21,19 @@ export const WireGame = ({ onSuccess }) => {
 
   const [gameSolved, setGameSolved] = useState(false);
 
-  // Função que calcula e desenha a curva do fio elétrico entre a origem e o plugue
   const updateWire = () => {
-    if (
-      !arenaRef.current ||
-      !originRef.current ||
-      !dragPlugRef.current ||
-      !wirePathRef.current
-    )
-      return;
+    if (!arenaRef.current || !originRef.current || !dragPlugRef.current || !wirePathRef.current) return;
 
     const arenaRect = arenaRef.current.getBoundingClientRect();
     const originRect = originRef.current.getBoundingClientRect();
     const plugRect = dragPlugRef.current.getBoundingClientRect();
 
-    // Ponto de partida (lado direito do bloco das pilhas)
     const startX = originRect.right - arenaRect.left - 10;
     const startY = originRect.top + originRect.height / 2 - arenaRect.top;
 
-    // Ponto atual do plugue que está sendo arrastado
     const currentX = plugRect.left + plugRect.width / 2 - arenaRect.left;
     const currentY = plugRect.top + plugRect.height / 2 - arenaRect.top;
 
-    // Cálculo da Curva de Bézier Cúbica para dar o peso e maleabilidade de um cabo real
     const controlX = startX + (currentX - startX) / 2;
     wirePathRef.current.setAttribute(
       "d",
@@ -56,7 +49,6 @@ export const WireGame = ({ onSuccess }) => {
     const targetMetal = targetMetalRef.current;
     const jackReversa = jackReversaRef.current;
 
-    // Função de reset movida para dentro do escopo correto do useEffect
     const resetWire = () => {
       gsap.to(dragPlug, {
         x: 0,
@@ -73,20 +65,16 @@ export const WireGame = ({ onSuccess }) => {
       edgeResistance: 0.7,
       onDrag: updateWire,
       onRelease: function () {
-        // ACERTO: Pilhas na Logística Reversa (Roxo)
         if (this.hitTest(targetReversa, "30%")) {
           setGameSolved(true);
-          this.disable(); // Trava o arrastar IMEDIATAMENTE para não haver conflito gráfico
+          this.disable();
 
-          const arenaRect = arenaRef.current.getBoundingClientRect();
           const jackRect = jackReversa.getBoundingClientRect();
           const plugRect = dragPlug.getBoundingClientRect();
 
-          // CÁLCULO CIRÚRGICO: Descobre a distância exata necessária baseada no scroll real da tela
           const targetX = (jackRect.left + jackRect.width / 2) - (plugRect.left - this.x + plugRect.width / 2);
           const targetY = (jackRect.top + jackRect.height / 2) - (plugRect.top - this.y + plugRect.height / 2);
 
-          // Anima o encaixe perfeito sem repulsão
           gsap.to(dragPlug, {
             x: targetX,
             y: targetY,
@@ -98,9 +86,8 @@ export const WireGame = ({ onSuccess }) => {
             }
           });
         } 
-        // ERRO: Tentou jogar pilha na lixeira de metal amarela comum
         else if (this.hitTest(targetMetal, "30%")) {
-          alert("⚠️ CURTO-CIRCUITO!\nPilhas e baterias contêm ácidos corrosivos e metais pesados perigosos. Elas NÃO podem ir para a lixeira de metal comum! Devem ir para o posto de Logística Reversa.");
+          alert("⚠️ CURTO-CIRCUITO AMBIENTAL!\nPilhas e baterias contêm metais pesados altamente tóxicos. Elas JAMAIS podem se misturar com o metal comum! Isole a área levando-as para a fita de Logística Reversa.");
           resetWire();
         } 
         else {
@@ -117,71 +104,68 @@ export const WireGame = ({ onSuccess }) => {
   return (
     <div
       ref={arenaRef}
-      className="w-full min-h-[400px] bg-neutral-900 border-4 border-black rounded-lg p-8 flex justify-between items-center relative overflow-hidden select-none"
+      className="w-full min-h-[420px] border-4 border-black rounded-lg p-8 flex justify-between items-center relative overflow-hidden select-none shadow-[8px_8px_0_#000]"
       style={{
-        backgroundImage:
-          "linear-gradient(rgba(51,51,51,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(51,51,51,0.3) 1px, transparent 1px)",
-        backgroundSize: "30px 30px",
+        backgroundImage: `url(${bgPilhas})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center"
       }}
     >
-      {/* RENDER DO CABO DINÂMICO VIA SVG */}
+      {/* RENDER DA FITA DE ISOLAMENTO (Aumentada a espessura para 14 e cor amarela vibrante) */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
         <path
           ref={wirePathRef}
-          stroke="#ffcc00"
-          strokeWidth="5"
-          strokeLinecap="round"
+          stroke="#facc15"
+          strokeWidth="14"
+          strokeLinecap="square"
           fill="none"
+          strokeDasharray="20,10" /* Cria o efeito listrado de fita zebrada/policial */
         />
       </svg>
 
-      {/* COLUNA DA ESQUERDA: ORIGEM DOS MATERIAIS */}
-      <div className="flex flex-col gap-12 z-20">
-        <div className="w-40 p-4 bg-neutral-800 border-4 border-black font-black text-xs text-center rounded-md shadow-[4px_4px_0_#000]">
-          🥫 LATAS DE ALUMÍNIO
-          <div className="w-4 h-4 bg-yellow-500 border-2 border-black rounded-full absolute right-[-8px] top-1/2 -translate-y-1/2 opacity-40"></div>
+      {/* COLUNA DA ESQUERDA: TEXTOS SOBRE A IMAGEM */}
+      <div className="flex flex-col gap-16 z-20">
+        <div className="w-44 p-2 text-neutral-300 font-mono font-black text-[11px] uppercase tracking-wide bg-black/70 border border-neutral-700 rounded-sm shadow-md">
+          <span className="text-yellow-400 block mb-0.5">⚠️ ÁREA:</span> DESCARTE DE METAIS
         </div>
 
-        {/* ALVO DO ARRASTAR */}
         <div
           ref={originRef}
-          className="w-40 p-4 bg-neutral-800 border-4 border-black font-black text-xs text-center rounded-md shadow-[4px_4px_0_#000] relative"
+          className="w-44 p-2 text-neutral-200 font-mono font-black text-[11px] uppercase tracking-wide bg-black/80 border-2 border-yellow-500 rounded-sm shadow-lg relative"
         >
-          🔋 PILHAS USADAS
+          <span className="text-amber-500 block mb-0.5">🔋 ORIGEM:</span> PILHAS E BATERIAS
           <div
             ref={dragPlugRef}
-            className="w-6 h-6 bg-yellow-400 border-3 border-black rounded-full absolute right-[-12px] top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing shadow-[2px_2px_0_#000] z-30 touch-none"
+            className="w-7 h-7 bg-yellow-400 border-4 border-black rounded-full absolute right-[-14px] top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing shadow-[2px_2px_0_#000] z-30 touch-none flex items-center justify-center font-black text-black text-xs"
             style={{ pointerEvents: gameSolved ? "none" : "auto" }}
-          ></div>
+          >
+            🚧
+          </div>
         </div>
       </div>
 
-      <div className="text-center max-w-[180px] font-mono text-[10px] text-neutral-500 font-bold uppercase tracking-wider hidden md:block">
-        Conecte o circuito de descarte com segurança!
+      <div className="text-center max-w-[160px] font-mono text-[10px] text-yellow-400 font-black bg-black/80 border border-black p-2 rounded-sm uppercase tracking-wider hidden lg:block z-20 shadow-md">
+        📢 Use a fita para isolar a contaminação química!
       </div>
 
-      {/* COLUNA DA DIREITA: DESTINOS (LIXEIRAS) */}
-      <div className="flex flex-col gap-16 z-20 h-full justify-center">
+      {/* COLUNA DA DIREITA: DESTINOS (ALVOS INVISÍVEIS FLUTUANDO SOBRE A ARTE) */}
+      <div className="flex flex-col gap-20 z-20 h-full justify-center">
+        {/* Metal Comum */}
         <div
           ref={targetMetalRef}
-          className="w-44 p-4 bg-amber-500 text-black border-4 border-black font-black text-xs text-center rounded-md shadow-[4px_4px_0_#000] relative"
+          className="w-48 p-2 bg-black/40 hover:bg-black/60 border-2 border-transparent hover:border-amber-500 text-transparent hover:text-amber-400 font-mono font-black text-[11px] text-center rounded-sm transition-colors relative cursor-crosshair h-14 flex items-center justify-center"
         >
-          <div
-            ref={jackMetalRef}
-            className="w-4 h-4 bg-black border-2 border-amber-600 rounded-full absolute left-[-8px] top-1/2 -translate-y-1/2"
-          ></div>
-          ♻️ LIXEIRA DE METAL
+          <div ref={jackMetalRef} className="w-3 h-3 bg-yellow-500 border border-black rounded-full absolute left-[-6px] top-1/2 -translate-y-1/2 opacity-80" />
+          [ ALVO: LIXEIRA METAL ]
         </div>
 
+        {/* Logística Reversa */}
         <div
           ref={targetReversaRef}
-          className="w-44 p-4 bg-purple-600 text-white border-4 border-black font-black text-xs text-center rounded-md shadow-[4px_4px_0_#000] relative"
+          className="w-48 p-2 bg-black/40 hover:bg-black/60 border-2 border-transparent hover:border-orange-500 text-transparent hover:text-orange-400 font-mono font-black text-[11px] text-center rounded-sm transition-colors relative cursor-crosshair h-14 flex items-center justify-center"
         >
-          <div
-            ref={jackReversaRef}
-            className="w-4 h-4 bg-black border-2 border-purple-400 rounded-full absolute left-[-8px] top-1/2 -translate-y-1/2"
-          ></div>
-          ♻️ LOGÍSTICA REVERSA
+          <div ref={jackReversaRef} className="w-3 h-3 bg-orange-500 border border-black rounded-full absolute left-[-6px] top-1/2 -translate-y-1/2 opacity-80" />
+          [ ALVO: LOGÍSTICA REVERSA ]
         </div>
       </div>
     </div>

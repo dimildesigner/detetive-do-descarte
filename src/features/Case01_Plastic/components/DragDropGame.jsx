@@ -62,7 +62,7 @@ export const DragDropGame = ({ onSuccess }) => {
   return (
     <div 
       ref={containerRef} 
-      className="w-full min-h-[350px] bg-neutral-900 border-4 border-black rounded-lg p-6 flex flex-col justify-between items-center relative overflow-hidden select-none"
+      className="w-full min-h-[350px] bg-neutral-900 border-0 border-black rounded-lg p-6 flex flex-col justify-between items-center relative overflow-hidden select-none"
       style={{ backgroundImage: 'radial-gradient(#333 1px, transparent 1px)', backgroundSize: '20px 20px' }}
     >
       <div className="text-sm font-mono text-center text-neutral-400 font-bold uppercase tracking-wider">

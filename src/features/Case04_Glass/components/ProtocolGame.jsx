@@ -2,10 +2,15 @@
 import React, { useState } from 'react';
 import { gsap } from 'gsap';
 
+// 🎨 Importando as 3 ilustrações magníficas das etapas do protocolo
+import imgPasso1 from "../../../assets/caso04_protocolo_vidros_img1.png";
+import imgPasso2 from "../../../assets/caso04_protocolo_vidros_img2.png";
+import imgPasso3 from "../../../assets/caso04_protocolo_vidros_img3.png";
+
 const PROTOCOL_STEPS = [
-  { id: 'embrulhar', text: '📦 1. Embrulhar em Papelão/Jornal', order: 1 },
-  { id: 'identificar', text: '✍️ 2. Escrever "Cuidado: Vidro"', order: 2 },
-  { id: 'descartar', text: '🟢 3. Depositar na Lixeira Verde', order: 3 }
+  { id: 'embrulhar', text: '1. Embrulhar em Papelão/Jornal', img: imgPasso1, order: 1 },
+  { id: 'identificar', text: '2. Escrever "Cuidado: Vidro"', img: imgPasso2, order: 2 },
+  { id: 'descartar', text: '3. Depositar na Lixeira Verde', img: imgPasso3, order: 3 }
 ];
 
 export const ProtocolGame = ({ onSuccess }) => {
@@ -13,32 +18,29 @@ export const ProtocolGame = ({ onSuccess }) => {
   const [completedSteps, setCompletedSteps] = useState([]);
 
   const handleStepClick = (step) => {
-    // Se o passo já foi feito, ignora
     if (completedSteps.includes(step.id)) return;
 
     if (step.order === currentOrder) {
-      // ACERTOU O PASSO DO PROTOCOLO
+      // ACERTOU A SEQUÊNCIA
       setCompletedSteps([...completedSteps, step.id]);
       setCurrentOrder(currentOrder + 1);
 
-      // Animação de sucesso no botão clicado
+      // Animação de clique bem-sucedido no quadro
       gsap.fromTo(`#step-${step.id}`, 
         { scale: 1 }, 
-        { scale: 1.05, backgroundColor: '#22c55e', borderColor: '#000', duration: 0.2, yoyo: true, repeat: 1 }
+        { scale: 1.02, duration: 0.15, yoyo: true, repeat: 1 }
       );
 
-      // Se completou os 3 passos na ordem certa
       if (step.order === 3) {
-        setTimeout(onSuccess, 600);
+        setTimeout(onSuccess, 800);
       }
     } else {
-      // ERROU O PROTOCOLO: Treme a arena inteira em sinal de perigo
+      // ERROU O PROTOCOLO DE SEGURANÇA
       alert("🚨 PROTOCOLO VIOLADO!\nDescartar vidro quebrado sem proteção coloca a vida dos coletores em risco. Siga as normas de segurança na ordem correta!");
       
       gsap.timeline()
         .to("#protocol-arena", { x: -10, duration: 0.05, yoyo: true, repeat: 5 })
         .to("#protocol-arena", { x: 0, duration: 0.05, onComplete: () => {
-          // Reseta o jogo para o início
           setCurrentOrder(1);
           setCompletedSteps([]);
         }});
@@ -48,48 +50,64 @@ export const ProtocolGame = ({ onSuccess }) => {
   return (
     <div 
       id="protocol-arena"
-      className="w-full max-w-xl bg-neutral-900 border-4 border-black p-6 rounded-lg flex flex-col items-center shadow-[8px_8px_0_#000]"
+      className="w-full max-w-4xl bg-neutral-950 border-4 border-black p-6 rounded-md shadow-[8px_8px_0_#000] flex flex-col items-center"
     >
-      <div className="text-center mb-6">
-        <div className="text-4xl mb-2 animate-bounce">⚠️ 🫙 💥</div>
-        <h3 className="text-md font-mono font-bold text-yellow-400 uppercase tracking-wider">
+      <div className="text-center mb-8">
+        <h3 className="text-lg font-mono font-black text-yellow-400 uppercase tracking-wider">
           Protocolo de Acidente com Vidro
         </h3>
-        <p className="text-xs text-neutral-400 mt-1">
-          Ative as medidas de contenção na ordem correta de segurança:
+        <p className="text-xs text-neutral-500 font-mono uppercase tracking-tight mt-1">
+          Clique nos quadros na ordem correta das diretrizes de compliance:
         </p>
       </div>
 
-      {/* BOTÕES DO SEQUENCIADOR */}
-      <div className="flex flex-col gap-3 w-full">
+      {/* PAREDE DE QUADROS DA OFICINA (Layout horizontal elegante) */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full px-2 mb-8">
         {PROTOCOL_STEPS.map((step) => {
           const isDone = completedSteps.includes(step.id);
           return (
-            <button
+            <div
               key={step.id}
               id={`step-${step.id}`}
               onClick={() => handleStepClick(step)}
               className={`
-                w-full p-4 border-4 border-black font-black text-sm text-left rounded-md transition-all cursor-pointer select-none
+                relative bg-neutral-900 border-4 border-black rounded-sm overflow-hidden flex flex-col transition-all duration-300 select-none cursor-pointer
                 ${isDone 
-                  ? 'bg-emerald-500 text-black shadow-none translate-y-1 border-neutral-900' 
-                  : 'bg-neutral-800 text-neutral-200 shadow-[4px_4px_0_#000] hover:bg-neutral-700 active:translate-y-0.5'
+                  ? 'border-emerald-500 shadow-none scale-95 opacity-50 bg-emerald-950/20' 
+                  : 'hover:border-neutral-500 shadow-[0_15px_20px_rgba(0,0,0,0.8)] hover:-translate-y-1'
                 }
               `}
             >
-              <div className="flex justify-between items-center">
-                <span>{step.text}</span>
-                {isDone && <span className="text-md">✅</span>}
+              {/* Moldura de Imagem do Quadro */}
+              <div className="w-full h-40 bg-black overflow-hidden relative">
+                <img 
+                  src={step.img} 
+                  alt={step.text} 
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                />
+                {/* Selo Verde de Concluído por cima da arte */}
+                {isDone && (
+                  <div className="absolute inset-0 bg-emerald-500/20 flex items-center justify-center font-black text-4xl text-emerald-400 drop-shadow-[2px_2px_0_#000]">
+                    ✅
+                  </div>
+                )}
               </div>
-            </button>
+
+              {/* Descrição Inferior do Quadro */}
+              <div className="p-3 bg-neutral-900 border-t-2 border-black flex-1 flex items-center justify-center text-center">
+                <span className={`font-mono text-[11px] font-black uppercase tracking-tight ${isDone ? 'text-emerald-400' : 'text-neutral-300'}`}>
+                  {step.text}
+                </span>
+              </div>
+            </div>
           );
         })}
       </div>
 
-      {/* BARRA DE STATUS DE COMPLIANCE */}
-      <div className="w-full bg-black h-3 border-2 border-black mt-6 rounded-full overflow-hidden">
+      {/* BARRA DE PROGRESSO DE MEDIDAS */}
+      <div className="w-full max-w-xl bg-black h-4 border-2 border-black rounded-full overflow-hidden p-0.5">
         <div 
-          className="bg-emerald-400 h-full transition-all duration-300"
+          className="bg-emerald-400 h-full rounded-full transition-all duration-300"
           style={{ width: `${(completedSteps.length / 3) * 100}%` }}
         ></div>
       </div>

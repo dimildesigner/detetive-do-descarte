@@ -103,7 +103,7 @@ export const Case01Page = () => {
                <div className="absolute bottom-[-16px] left-6 w-0 h-0 border-x-[12px] border-x-transparent border-t-[16px] border-t-black"></div>
                <div className="absolute bottom-[-10px] right-[50px] w-0 h-0 border-x-[10px] border-x-transparent border-t-[12px] border-t-white"></div>
             </div>
-            <h2 className="text-3xl font-black uppercase tracking-wider text-yellow-400 drop-shadow-[2px_2px_0_#000]" style={{ fontFamily: "Impact" }}>
+            <h2 className="text-3xl font-black uppercase tracking-wider text-yellow-400 drop-shadow-[3px_3px_3px_#000]" style={{ fontFamily: "Impact" }}>
               Caso #01: A Garrafa Fantasma
             </h2>
           </div>
