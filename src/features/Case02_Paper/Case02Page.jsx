@@ -24,7 +24,6 @@ export const Case02Page = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 pb-24 animate-fade-in">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-neutral-900 p-6 border-4 border-black shadow-[12px_12px_0px_#000]">
-        
         {/* QUADRINHO NARRATIVO 1 - CORRIGIDO: w-full sem traço duplo e imagem 100% fluida */}
         <div className="md:col-span-2 relative min-h-[240px] border-4 border-black overflow-hidden bg-black shadow-[4px_4px_0_#000]">
           <img
@@ -35,19 +34,18 @@ export const Case02Page = () => {
           <div className="relative z-10 p-6 h-full flex flex-col justify-between items-start">
             <div
               id="bubble2-1"
-              className="bg-white text-black p-4 rounded-xl border-4 border-black font-bold max-w-xl mb-6 shadow-[4px_4px_0_#000] scale-0 origin-bottom-left text-xs md:text-sm"
+              className="bg-white text-black p-4 rounded-xl border-4 border-black font-bold max-w-xl mb-6 shadow-[4px_4px_0_#000] scale-0 origin-bottom-left text-xs md:text-base"
             >
-              "Área de escritórios... O segundo crime ambiental foi cometido aqui
-              neste ambiente. Além desse quadro de detetives, tem muito papel
-              misturado, papéis de delivery engordurados, papéis de reuso jogados
-              de qualquer jeito. Vamos botar ordem nessa bagunça!"
+              “Área do escritório... Que bagunça! Esta pode ser considerada nossa segunda prova de crime ambiental. Encontramos rejeitos e recicláveis misturados lado a lado. Há lenços sujos junto com papel picado limpo. Caixas de pizza engorduradas e copos de café sujos estão misturados com caixas de papelão recicláveis. Precisaremos de uma boa memória para reorganizar esses descartes!”
+              <div className="absolute bottom-[-16px] left-6 w-0 h-0 border-x-[12px] border-x-transparent border-t-[16px] border-t-black"></div>
+              <div className="absolute bottom-[-10px] right-[50px] w-0 h-0 border-x-[10px] border-x-transparent border-t-[12px] border-t-white"></div>
             </div>
 
             <h2
               className="text-3xl font-black uppercase tracking-wider text-yellow-400 drop-shadow-[2px_2px_0_#000]"
               style={{ fontFamily: "Impact" }}
             >
-              Caso #02: O Mistério das Cartas
+              CASO #02 — O MISTÉRIO DAS CARTAS
             </h2>
           </div>
         </div>
@@ -58,7 +56,7 @@ export const Case02Page = () => {
             onSuccess={() => {
               solveCase("case2");
               alert(
-                "🏆 EXCELENTE DETETIVE!\nVocê arquivou a papelada corretamente e aprendeu que papel sujo quebra o processo de reciclagem!",
+                "🏆 EXCELENTE DETETIVE!\nVocê arquivou a papelada corretamente e aprendeu que papéis contaminados comprometem o processo de reciclagem!",
               );
             }}
           />

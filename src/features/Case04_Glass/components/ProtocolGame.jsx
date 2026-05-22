@@ -1,5 +1,5 @@
 // src/features/Case04_Glass/components/ProtocolGame.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 
 // 🎨 Importando as 3 ilustrações magníficas das etapas do protocolo
@@ -7,21 +7,29 @@ import imgPasso1 from "../../../assets/caso04_protocolo_vidros_img1.png";
 import imgPasso2 from "../../../assets/caso04_protocolo_vidros_img2.png";
 import imgPasso3 from "../../../assets/caso04_protocolo_vidros_img3.png";
 
-const PROTOCOL_STEPS = [
-  { id: 'embrulhar', text: '1. Embrulhar em Papelão/Jornal', img: imgPasso1, order: 1 },
-  { id: 'identificar', text: '2. Escrever "Cuidado: Vidro"', img: imgPasso2, order: 2 },
-  { id: 'descartar', text: '3. Depositar na Lixeira Verde', img: imgPasso3, order: 3 }
+// Matriz de dados sem a numeração explícita no texto para forçar a leitura
+const INITIAL_STEPS = [
+  { id: 'embrulhar', text: 'Embrulhar em papelão ou jornal', img: imgPasso1, order: 1 },
+  { id: 'identificar', text: 'Escrever “Cuidado: Vidro”', img: imgPasso2, order: 2 },
+  { id: 'descartar', text: 'Depositar na lixeira verde', img: imgPasso3, order: 3 }
 ];
 
 export const ProtocolGame = ({ onSuccess }) => {
+  const [steps, setSteps] = useState([]); // 🔀 Estado que vai guardar os quadros embaralhados
   const [currentOrder, setCurrentOrder] = useState(1);
   const [completedSteps, setCompletedSteps] = useState([]);
+
+  // Inicializa e embaralha a ordem dos quadros na parede da oficina
+  useEffect(() => {
+    const shuffled = [...INITIAL_STEPS].sort(() => Math.random() - 0.5);
+    setSteps(shuffled);
+  }, []);
 
   const handleStepClick = (step) => {
     if (completedSteps.includes(step.id)) return;
 
     if (step.order === currentOrder) {
-      // ACERTOU A SEQUÊNCIA
+      // ACERTOU A SEQUÊNCIA DO PROTOCOLO
       setCompletedSteps([...completedSteps, step.id]);
       setCurrentOrder(currentOrder + 1);
 
@@ -35,12 +43,15 @@ export const ProtocolGame = ({ onSuccess }) => {
         setTimeout(onSuccess, 800);
       }
     } else {
-      // ERROU O PROTOCOLO DE SEGURANÇA
+      // ERROU O PROTOCOLO DE SEGURANÇA: Tremedeira e Reset
       alert("🚨 PROTOCOLO VIOLADO!\nDescartar vidro quebrado sem proteção coloca a vida dos coletores em risco. Siga as normas de segurança na ordem correta!");
       
       gsap.timeline()
         .to("#protocol-arena", { x: -10, duration: 0.05, yoyo: true, repeat: 5 })
         .to("#protocol-arena", { x: 0, duration: 0.05, onComplete: () => {
+          // Mantém o desafio dinâmico: re-embaralha as cartas ao errar!
+          const reshuffled = [...INITIAL_STEPS].sort(() => Math.random() - 0.5);
+          setSteps(reshuffled);
           setCurrentOrder(1);
           setCompletedSteps([]);
         }});
@@ -57,13 +68,13 @@ export const ProtocolGame = ({ onSuccess }) => {
           Protocolo de Acidente com Vidro
         </h3>
         <p className="text-xs text-neutral-500 font-mono uppercase tracking-tight mt-1">
-          Clique nos quadros na ordem correta das diretrizes de compliance:
+          Clique nos quadros na ordem correta das diretrizes de segurança para concluir o descarte consciente!:
         </p>
       </div>
 
-      {/* PAREDE DE QUADROS DA OFICINA (Layout horizontal elegante) */}
+      {/* PAREDE DE QUADROS DA OFICINA (Renderizando a ordem randômica do estado 'steps') */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full px-2 mb-8">
-        {PROTOCOL_STEPS.map((step) => {
+        {steps.map((step) => {
           const isDone = completedSteps.includes(step.id);
           return (
             <div
@@ -79,7 +90,7 @@ export const ProtocolGame = ({ onSuccess }) => {
               `}
             >
               {/* Moldura de Imagem do Quadro */}
-              <div className="w-full h-40 bg-black overflow-hidden relative">
+              <div className="w-full h-full bg-black overflow-hidden relative">
                 <img 
                   src={step.img} 
                   alt={step.text} 
@@ -93,7 +104,7 @@ export const ProtocolGame = ({ onSuccess }) => {
                 )}
               </div>
 
-              {/* Descrição Inferior do Quadro */}
+              {/* Descrição Inferior do Quadro (Sem números!) */}
               <div className="p-3 bg-neutral-900 border-t-2 border-black flex-1 flex items-center justify-center text-center">
                 <span className={`font-mono text-[11px] font-black uppercase tracking-tight ${isDone ? 'text-emerald-400' : 'text-neutral-300'}`}>
                   {step.text}

@@ -87,7 +87,7 @@ export const WireGame = ({ onSuccess }) => {
           });
         } 
         else if (this.hitTest(targetMetal, "30%")) {
-          alert("⚠️ CURTO-CIRCUITO AMBIENTAL!\nPilhas e baterias contêm metais pesados altamente tóxicos. Elas JAMAIS podem se misturar com o metal comum! Isole a área levando-as para a fita de Logística Reversa.");
+          alert("⚠️ CURTO-CIRCUITO AMBIENTAL!\nPilhas e baterias contêm metais pesados altamente tóxicos. Elas jamais podem ser descartadas junto ao metal comum! Isole a área levando-as para o ponto de Logística Reversa.");
           resetWire();
         } 
         else {
@@ -145,7 +145,7 @@ export const WireGame = ({ onSuccess }) => {
       </div>
 
       <div className="text-center max-w-[160px] font-mono text-[10px] text-yellow-400 font-black bg-black/80 border border-black p-2 rounded-sm uppercase tracking-wider hidden lg:block z-20 shadow-md">
-        📢 Use a fita para isolar a contaminação química!
+        🚧 Use a fita para isolar a contaminação química! 🚧
       </div>
 
       {/* COLUNA DA DIREITA: DESTINOS (ALVOS INVISÍVEIS FLUTUANDO SOBRE A ARTE) */}

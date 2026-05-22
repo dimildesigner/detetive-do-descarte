@@ -11,12 +11,12 @@ import imgLencoUmido from "../../../assets/caso02-cards_lenco_humidecido_nao_rec
 const INITIAL_CARDS = [
   { id: 1, name: "Papel Limpo", img: imgPapelLimpo, type: "reciclável" },
   { id: 1, name: "Papel Limpo", img: imgPapelLimpo, type: "reciclável" },
-  { id: 2, name: "Copo de café", img: imgCopoSujo, type: "rejeito" },
-  { id: 2, name: "Copo de café", img: imgCopoSujo, type: "rejeito" },
-  { id: 3, name: "Caixa de papelão", img: imgPapelao, type: "reciclável" },
-  { id: 3, name: "Caixa de papelão", img: imgPapelao, type: "reciclável" },
-  { id: 4, name: "Papel toalha", img: imgLencoUmido, type: "rejeito" },
-  { id: 4, name: "Papel toalha", img: imgLencoUmido, type: "rejeito" },
+  { id: 2, name: "Copo de Café", img: imgCopoSujo, type: "rejeito" },
+  { id: 2, name: "Copo de Café", img: imgCopoSujo, type: "rejeito" },
+  { id: 3, name: "Caixa de Papelão", img: imgPapelao, type: "reciclável" },
+  { id: 3, name: "Caixa de Papelão", img: imgPapelao, type: "reciclável" },
+  { id: 4, name: "Papel-Toalha", img: imgLencoUmido, type: "rejeito" },
+  { id: 4, name: "Papel-Toalha", img: imgLencoUmido, type: "rejeito" },
 ];
 
 export const MemoryGrid = ({ onSuccess }) => {
@@ -70,10 +70,10 @@ export const MemoryGrid = ({ onSuccess }) => {
         setLockBoard(false);
 
         if (first.type === "reciclável") {
-          alert(`Excelente! ${first.name} vai para a Lixeira Azul.`);
+          alert(`Excelente! ${first.name} deve ser descartada na lixeira azul.`);
         } else {
           alert(
-            `Muito bom! ${first.name} está contaminado e vai para o Rejeito comum.`,
+            `Muito bom! ${first.name} contaminado deve ser descartado como rejeito comum.`,
           );
         }
 

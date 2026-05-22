@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { DragDropGame } from "./components/DragDropGame";
 
 // 🎨 Importando suas novas ilustrações customizadas
-import img01 from "../../assets/caso01_pet_img01.jpg"; // O banner dos detetives
+import img01 from "../../assets/caso01_pet_img01.png"; // O banner dos detetives
 import img02 from "../../assets/caso01_pet_img02.jpg"; // O detetive andando (corpo)
 import img03 from "../../assets/caso01_pet_img03.jpg"; // A cena da garrafa no lixo
 
@@ -19,8 +19,16 @@ export const Case01Page = () => {
 
   useEffect(() => {
     const tl = gsap.timeline();
-    tl.to("#bubble1-1", { scale: 1, duration: 0.5, ease: "back.out(1.5)", delay: 0.5 })
-      .to("#bubble1-2", { scale: 1, duration: 0.5, ease: "back.out(1.5)" }, "+=0.5");
+    tl.to("#bubble1-1", {
+      scale: 1,
+      duration: 0.5,
+      ease: "back.out(1.5)",
+      delay: 0.5,
+    }).to(
+      "#bubble1-2",
+      { scale: 1, duration: 0.5, ease: "back.out(1.5)" },
+      "+=0.5",
+    );
   }, []);
 
   useEffect(() => {
@@ -87,39 +95,59 @@ export const Case01Page = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 pb-24 animate-page-turn">
-      <div id="crunch-vfx" className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-0 font-black text-6xl text-yellow-400 z-50 pointer-events-none drop-shadow-[4px_4px_0_#000]" style={{ fontFamily: "Impact" }}>
+      <div
+        id="crunch-vfx"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-0 font-black text-6xl text-yellow-400 z-50 pointer-events-none drop-shadow-[4px_4px_0_#000]"
+        style={{ fontFamily: "Impact" }}
+      >
         Tcharam!
         {/* CRUNCH! */}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-neutral-900 p-6 border-4 border-black shadow-[12px_12px_0px_#000]">
-        
         {/* QUADRINHO 1: IMAGEM 01 (BANNER TOPO) */}
         <div className="md:col-span-2 relative min-h-[220px] border-4 border-black overflow-hidden bg-black">
-          <img src={img01} alt="Detectives Banner" className="absolute inset-0 w-full h-full object-cover opacity-70" />
+          <img
+            src={img01}
+            alt="Detectives Banner"
+            className="absolute inset-0 w-full h-full object-cover opacity-70"
+          />
           <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-            <div id="bubble1-1" className="relative bg-white text-black p-4 rounded-xl border-4 border-black font-bold max-w-xl shadow-[4px_4px_0_#000] scale-0 origin-bottom-left text-xs md:text-base">
-               "Alguém descartou uma garrafa PET no lixo orgânico. Poxa... O plástico pode levar 450 anos para sumir... Então, precisamos agir."
-               <div className="absolute bottom-[-16px] left-6 w-0 h-0 border-x-[12px] border-x-transparent border-t-[16px] border-t-black"></div>
-               <div className="absolute bottom-[-10px] right-[50px] w-0 h-0 border-x-[10px] border-x-transparent border-t-[12px] border-t-white"></div>
+            <div
+              id="bubble1-1"
+              className="relative bg-white text-black p-4 rounded-xl border-4 border-black font-bold max-w-xl shadow-[4px_4px_0_#000] scale-0 origin-bottom-left text-xs md:text-base"
+            >
+              “Descartaram uma garrafa PET no lixo orgânico. O plástico demora, em média, de 450 a 500 anos para se decompor... Então, o melhor que podemos fazer é encontrar essa PET e dar a ela o destino correto.”
+              <div className="absolute bottom-[-16px] left-6 w-0 h-0 border-x-[12px] border-x-transparent border-t-[16px] border-t-black"></div>
+              <div className="absolute bottom-[-10px] right-[50px] w-0 h-0 border-x-[10px] border-x-transparent border-t-[12px] border-t-white"></div>
             </div>
-            <h2 className="text-3xl font-black uppercase tracking-wider text-yellow-400 drop-shadow-[3px_3px_3px_#000]" style={{ fontFamily: "Impact" }}>
-              Caso #01: A Garrafa Fantasma
+            <h2
+              className="text-3xl font-black uppercase tracking-wider text-yellow-400 drop-shadow-[3px_3px_3px_#000]"
+              style={{ fontFamily: "Impact" }}
+            >
+              CASO #01 — A GARRAFA PERDIDA
             </h2>
           </div>
         </div>
 
         {/* QUADRINHO 2: IMAGEM 02 (DETETIVE LADO ESQUERDO) */}
         <div className="relative min-h-[350px] border-4 border-black overflow-hidden bg-neutral-950">
-          <img src={img02} alt="Detective Walking" className="absolute inset-0 w-full h-full object-cover opacity-40" />
+          <img
+            src={img02}
+            alt="Detective Walking"
+            className="absolute inset-0 w-full h-full object-cover opacity-60"
+          />
           <div className="relative z-10 p-6 h-full flex flex-col justify-end">
-             <div id="bubble1-2" className="bg-white text-black p-4 rounded-xl border-4 border-black font-bold max-w-xs mb-4 shadow-[4px_4px_0_#000] scale-0 origin-bottom-left text-base">
-                "Vamos inspecionar a lixeira de recicláveis orgânicos. Estou sentindo cheiro de negligência no ar..."
+            <div
+              id="bubble1-2"
+              className="bg-white text-black p-4 rounded-xl border-4 border-black font-bold max-w-xs mb-4 shadow-[4px_4px_0_#000] scale-0 origin-bottom-left text-base"
+            >
+              “Que escuro aqui... A lanterna vai nos ajudar a inspecionar a lixeira de resíduos orgânicos. Estou sentindo cheiro de negligência no ar...”
               <div className="absolute top-[-10px] left-[70px] w-0 h-0 border-x-[10px] border-x-transparent border-b-[12px] border-b-white"></div>
-             </div>
-             <p className="font-mono text-xs text-yellow-400 font-bold bg-black/60 p-1 rounded inline-block w-fit">
-                🐾 ACESSANDO STATUS: Investigação em campo...
-             </p>
+            </div>
+            <p className="font-mono text-xs text-orange-500 font-bold bg-black/60 p-1 rounded inline-block w-fit">
+              🐾 ACESSANDO STATUS: Investigação em campo...
+            </p>
           </div>
         </div>
 
@@ -131,7 +159,11 @@ export const Case01Page = () => {
         >
           {/* A imagem do lixo fica POR TRÁS do canvas */}
           {!showGame && (
-            <img src={img03} alt="Trash Scene" className="absolute inset-0 w-full h-full object-cover" />
+            <img
+              src={img03}
+              alt="Trash Scene"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           )}
 
           {/* Área clicável invisível que representa a garrafa na imagem */}
@@ -140,26 +172,32 @@ export const Case01Page = () => {
             className="w-30 h-30 cursor-pointer z-30 flex items-center justify-center rounded-full absolute bottom-4 left-45"
             style={{
               pointerEvents: showGame ? "none" : "auto",
-              border: evidenceVisible ? "2px dashed rgba(255,255,0,0.5)" : "none" // Feedback sutil quando a lanterna está em cima
+              border: evidenceVisible
+                ? "2px dashed rgba(255,255,0,0.5)"
+                : "none", // Feedback sutil quando a lanterna está em cima
             }}
           >
             {/* Opcional: manter um brilho sutil quando a lanterna encontra a garrafa */}
-            {evidenceVisible && <div className="w-full h-full bg-yellow-400/10 animate-pulse rounded-full"></div>}
+            {evidenceVisible && (
+              <div className="w-full h-full bg-yellow-400/10 animate-pulse rounded-full"></div>
+            )}
           </div>
 
           {/* O Canvas desenha o breu estilo Noir */}
           {!showGame && (
-            <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full pointer-events-none z-20" />
+            <canvas
+              ref={canvasRef}
+              className="absolute top-0 left-0 w-full h-full pointer-events-none z-20"
+            />
           )}
 
           {/* Se o mini-game começar, a imagem 03 some para dar lugar à arena */}
           {showGame && (
             <div className="absolute inset-0 bg-neutral-900 z-40 p-4">
-               <DragDropGame onSuccess={() => solveCase("case1")} />
+              <DragDropGame onSuccess={() => solveCase("case1")} />
             </div>
           )}
         </div>
-
       </div>
     </div>
   );

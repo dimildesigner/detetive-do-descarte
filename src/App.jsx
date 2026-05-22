@@ -1,20 +1,24 @@
 // src/App.jsx (Versão Corrigida contra Exploits)
-import React, { useState, useEffect } from 'react';
-import DossierPanel from './components/DossierPanel';
-import MainMenu from './components/MainMenu';
-import { Case01Page } from './features/Case01_Plastic/Case01Page';
-import { Case02Page } from './features/Case02_Paper/Case02Page';
-import { Case03Page } from './features/Case03_Metal/Case03Page';
-import { Case04Page } from './features/Case04_Glass/Case04Page';
-import { useGame } from './context/GameContext';
-import { gsap } from 'gsap';
-import confetti from 'canvas-confetti';
+import React, { useState, useEffect } from "react";
+import DossierPanel from "./components/DossierPanel";
+import MainMenu from "./components/MainMenu";
+import { Case01Page } from "./features/Case01_Plastic/Case01Page";
+import { Case02Page } from "./features/Case02_Paper/Case02Page";
+import { Case03Page } from "./features/Case03_Metal/Case03Page";
+import { Case04Page } from "./features/Case04_Glass/Case04Page";
+import { useGame } from "./context/GameContext";
+import { gsap } from "gsap";
+import confetti from "canvas-confetti";
+import seloImage from "./assets/selo-guardiao.png";
+import seloImage2 from "./assets/selo-guardiao2.png";
+import seloImage3 from "./assets/selo-guardiao3.png";
+import imgLogoLupa from "./assets/logo_detetive_descarte_lupa_preta.svg";
 
 export default function App() {
   const { gameState, resetGame } = useGame();
-  
+
   const [gameStarted, setGameStarted] = useState(() => {
-    return !!gameState.playerName; 
+    return !!gameState.playerName;
   });
 
   const allSolved = Object.values(gameState.casesSolved).every(Boolean);
@@ -22,7 +26,11 @@ export default function App() {
   useEffect(() => {
     if (allSolved) {
       confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-      gsap.fromTo("#badge-reward", { scale: 0, rotateY: 0 }, { scale: 1, rotateY: 360, duration: 1.2, ease: "back.out(1.5)" });
+      gsap.fromTo(
+        "#badge-reward",
+        { scale: 0, rotateY: 0 },
+        { scale: 1, rotateY: 360, duration: 1.2, ease: "back.out(1.5)" },
+      );
     }
   }, [allSolved]);
 
@@ -49,30 +57,81 @@ export default function App() {
         </div>
       ) : (
         /* TELA DE VITÓRIA PREMIUM */
-        <div className="max-w-md mx-auto pt-32 px-4 text-center flex flex-col items-center justify-center min-h-[70vh]">
-          <div id="badge-reward" className="w-40 h-40 bg-gradient-to-br from-yellow-300 via-amber-500 to-yellow-600 border-4 border-black rounded-full flex items-center justify-center shadow-[8px_8px_0_#000] text-7xl mb-8 select-none relative">
+        <div className="max-w-md mx-auto pt-32 px-4 text-center flex flex-col items-center justify-center min-h-[80vh]">
+          {/* <div id="badge-reward" className="w-40 h-40 bg-gradient-to-br from-yellow-300 via-amber-500 to-yellow-600 border-4 border-black rounded-full flex items-center justify-center shadow-[8px_8px_0_#000] text-7xl mb-8 select-none relative">
             <span>{gameState.playerAvatar}</span>
             <span className="absolute top-0 right-0 text-3xl">🥇</span>
+          </div> */}
+
+          <div
+            id="badge-reward"
+            className="w-40 h-40 flex items-center justify-center text-6xl mb-8 select-none relative"
+          >
+            <span>{gameState.playerAvatar}</span>
+            <img
+              src={seloImage}
+              alt="Selo de Guardião da Sustentabilidade"
+              className="absolute inset-0 w-full h-full object-cover opacity-50 shadow-[8px_8px_6_#000]"
+            />
+            <img
+              src={seloImage2}
+              alt="Selo de Guardião da Sustentabilidade rotacao"
+              className="absolute inset-0 w-full h-full object-contain opacity-90 shadow-[8px_8px_6_#000] animate-spin"
+              style={{ animationDuration: "5s" }}
+            />
+            <img
+              src={seloImage3}
+              alt="Selo de Guardião da Sustentabilidade"
+              className="absolute inset-0 w-full h-full object-contain opacity-80 shadow-[8px_8px_6_#000]"
+              style={{
+                animation: "fadeInOut 5s ease-in-out infinite",
+              }}
+            />
           </div>
 
-          <h1 className="text-4xl font-black uppercase tracking-wider text-yellow-400 drop-shadow-[3px_3px_0_#000]" style={{ fontFamily: 'Impact' }}>
+          <h1
+            className="text-4xl font-black uppercase tracking-wider text-yellow-400 drop-shadow-[3px_3px_0_#000]"
+            style={{ fontFamily: "Impact" }}
+          >
             CONCLUÍDO, AGENTE!
           </h1>
-          
+
           <p className="font-mono text-sm text-neutral-400 mt-4 max-w-sm">
-            Parabéns, <span className="text-yellow-400 font-bold">{gameState.playerName}</span>! Você e sua mascote varreram o crime ambiental da corporação e garantiram o selo de Guardiões da Sustentabilidade. 🐾
+            Parabéns,{" "}
+            <span className="text-yellow-400 font-bold">
+              {gameState.playerName}
+            </span>
+            ! Você e sua mascote varreram o crime ambiental da corporação e
+            garantiram o selo de Guardiões da Sustentabilidade. 🥇
           </p>
 
           <div className="bg-neutral-900 border-4 border-black px-6 py-2 rounded-md mt-6 shadow-[4px_4px_0_#000]">
-            <span className="text-xs font-mono tracking-widest text-neutral-500 uppercase block">Pontuação Final</span>
-            <span className="text-2xl font-mono font-black text-emerald-400">{String(gameState.score).padStart(6, '0')} PTS</span>
+            <span className="text-xs font-mono tracking-widest text-neutral-500 uppercase block">
+              Pontuação Final
+            </span>
+            <span className="text-2xl font-mono font-black text-emerald-400">
+              {String(gameState.score).padStart(6, "0")} PTS
+            </span>
           </div>
 
           <button
             onClick={handleFullReset}
-            className="mt-10 bg-yellow-400 hover:bg-yellow-500 text-black font-black uppercase tracking-wider border-4 border-black px-8 py-4 rounded-md shadow-[4px_4px_0_#000] hover:translate-y-1 hover:shadow-[2px_2px_0_#000] transition-all cursor-pointer text-sm"
+            className="mt-10 bg-yellow-400 hover:bg-yellow-500 text-black font-black uppercase tracking-wider border-4 border-black px-8 py-4 rounded-md shadow-[4px_4px_0_#000] hover:translate-y-1 hover:shadow-[2px_2px_0_#000] transition-all cursor-pointer text-xs"
           >
-            🔄 Nova Investigação
+            {/* Div da imagem alinhada à esquerda */}
+            <div className="flex justify-start">
+              <img
+                src={imgLogoLupa}
+                alt="Logotipo Detetive do Descarte"
+                className="w-6 h-6 object-contain"
+              />
+            </div>
+
+            {/* Div do texto centralizada no botão */}
+            <div className="text-center">Iniciar nova investigação</div>
+
+            {/* Div invisível à direita para equilibrar o grid e manter o texto no centro perfeito */}
+            <div className="w-6" aria-hidden="true"></div>
           </button>
         </div>
       )}

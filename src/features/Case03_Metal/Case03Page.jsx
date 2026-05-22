@@ -32,18 +32,15 @@ export const Case03Page = () => {
           <div className="relative z-10 p-6 h-full flex flex-col justify-between items-start">
             <div
               id="bubble3-1"
-              className="bg-white text-black p-4 rounded-xl border-4 border-black font-bold max-w-xl mb-6 shadow-[4px_4px_0_#000] scale-0 origin-bottom-left text-xs md:text-sm"
+              className="bg-white text-black p-4 rounded-xl border-4 border-black font-bold max-w-xl mb-6 shadow-[4px_4px_0_#000] scale-0 origin-bottom-left text-xs md:text-base"
             >
-              "Almoxarifado central... Encontrei uma verdadeira bomba-relógio
-              ecológica. Descartaram pilhas ácidas junto com as latas de
-              alumínio recicláveis! Se esses componentes vazarem, inutilizam
-              todo o lote de metal. Preciso isolar os circuitos!"
+              "Oficina de Manutenção... Encontramos uma verdadeira bomba-relógio ecológica. Descartaram pilhas e baterias junto com latas de alumínio recicláveis! Se esses componentes vazarem, poderão contaminar todo o lote de metal. Precisamos isolar os circuitos!”
             </div>
             <h2
               className="text-3xl font-black uppercase tracking-wider text-amber-500 drop-shadow-[2px_2px_0_#000]"
               style={{ fontFamily: "Impact" }}
             >
-              Caso #03: Curto-Circuito Químico
+              CASO #03 — CURTO-CIRCUITO QUÍMICO
             </h2>
           </div>
         </div>
@@ -54,7 +51,7 @@ export const Case03Page = () => {
             onSuccess={() => {
               solveCase("case3");
               alert(
-                "⚡ ÁREA ISOLADA COM SUCESSO!\nSensacional, parceiro! O metal foi protegido da contaminação ácida e o lixo químico nocivo foi destinado para a Logística Reversa.",
+                "⚡ ÁREA ISOLADA COM SUCESSO!\nSensacional, parceiro! O metal foi protegido da contaminação química e os resíduos perigosos foram destinados corretamente para a Logística Reversa.",
               );
             }}
           />
