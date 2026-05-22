@@ -1,5 +1,7 @@
 # 🕵️‍♂️ DETETIVE DO DESCARTE: Operação Eco-Compliance
 
+![nvestigadores de Elite](https://github.com/dimildesigner/detetive-do-descarte/blob/main/src/assets/detectives_preview.png)
+
 > **STATUS DO DOSSIÊ:** Altamente Confidencial  
 > **DIREÇÃO DE ARTE & DESIGN:** [dimildesigner](https://dimildesigner-portfolio.vercel.app/)  
 > **GÊNERO:** Treinamento Corporativo Gamificado / Graphic Novel Interativa
@@ -28,10 +30,10 @@ O projeto foi inteiramente concebido e lapidado sob uma forte estética de **Gra
 
 O jogo é composto por **4 Casos Criminais Dinâmicos**, cada um focado em um tipo de material e uma mecânica de front-end exclusiva:
 
-1. **Caso #01: A Garrafa Fantasma (Plástico)** * *Mecânica:* Lanterna interativa em tempo real com HTML5 Canvas sobre ilustrações misteriosas, seguido de um puzzle arrastável de descarte seletivo.
-2. **Caso #02: O Mistério das Cartas (Papel)** * *Mecânica:* Jogo da memória dinâmico com efeito de virada 3D. Os cards são gerados de forma randômica e trazem insights pedagógicos sobre papéis recicláveis vs. rejeitos contaminados com gordura.
-3. **Caso #03: Curto-Circuito Químico (Metal & Eletrônicos)** * *Mecânica:* Encaixe elástico de circuitos. O jogador deve esticar uma **fita zebrada de isolamento policial** (SVG dinâmico com Bézier Cúbica) para conectar pilhas e baterias ao canal seguro de Logística Reversa.
-4. **Caso #04: Estilhaços Ocultos (Vidro)** * *Mecânica:* Sequenciador lógico de compliance de segurança. Os passos do protocolo são exibidos como quadros físicos de evidência na parede que mudam de posição de forma aleatória a cada tentativa.
+1. **Caso #01 — A Garrafa Perdida (Plástico)** * *Mecânica:* Lanterna interativa em tempo real com HTML5 Canvas sobre ilustrações misteriosas, seguido de um puzzle arrastável de descarte seletivo.
+2. **Caso #02 — O Mistério das Cartas (Papel)** * *Mecânica:* Jogo da memória dinâmico com efeito de virada 3D. Os cards são gerados de forma randômica e trazem insights pedagógicos sobre papéis recicláveis vs. rejeitos contaminados com gordura ou molhados.
+3. **Caso #03 — Curto-Circuito Químico (Metal & Eletrônicos)** * *Mecânica:* Encaixe elástico de circuitos. O jogador deve esticar uma **fita zebrada de isolamento policial** (SVG dinâmico com Bézier Cúbica) para conectar pilhas e baterias ao canal seguro de Logística Reversa.
+4. **Caso #04 — Estilhaços Ocultos (Vidro)** * *Mecânica:* Sequenciador lógico de normas de segurança. Os passos do protocolo são exibidos como evidência em quadros físicos (com moldura de vidro), que mudam de posição de forma aleatória a cada tentativa.
 
 ---
 
@@ -54,8 +56,6 @@ Este projeto foi construído utilizando as melhores e mais modernas práticas do
 
 ---
 
-## 📦 Como Rodar o Projeto Localmente
+## 📄 Licença
 
-1. Clone o repositório para sua máquina:
-   ```bash
-   git clone [https://github.com/dimildesigner/detetive-do-descarte.git](https://github.com/dimildesigner/detetive-do-descarte.git)
+MIT © [dimildesigner](https://github.com/dimildesigner)
